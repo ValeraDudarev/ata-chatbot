@@ -1,0 +1,65 @@
+service: ata-chatbot
+
+package:
+  individually: true
+
+provider:
+  name: aws
+  logs:
+    restApi: true
+  endpointType: regional
+  resourcePolicy:
+    - Effect: Allow
+      Principal: '*'
+      Action: execute-api:Invoke
+      Resource:
+        - arn:aws:execute-api:*:*:*/stage/*
+      Condition:
+        IpAddress:
+          aws:SourceIp: '0.0.0.0/0'
+  stage: 'stage'
+  runtime: nodejs12.x
+  iamRoleStatements:
+    - Effect: 'Allow'
+      Action:
+        - 'ec2:CreateNetworkInterface'
+        - 'ec2:DescribeNetworkInterfaces'
+        - 'ec2:DetachNetworkInterface'
+        - 'ec2:DeleteNetworkInterface'
+      Resource: '*'
+    - Effect: 'Allow'
+      Action:
+        - 'lambda:InvokeFunction'
+      Resource: '*'
+
+custom:
+  webpack:
+    webpackConfig: ./webpack.config.js
+    includeModules:
+      forceExclude:
+        - aws-sdk
+    packager: 'npm'
+  warmup:
+    enabled: true
+    events:
+      - schedule: rate(5 minutes)
+    prewarm: true
+    concurrency: 1
+  prune:
+    automatic: true
+    number: 5
+
+functions:
+  helloWorld:
+    handler: src/handlers/helloWorld.helloWorld
+    events:
+      - http:
+          path: /hello-world
+          method: get
+          cors: true
+
+plugins:
+  - serverless-webpack
+  - serverless-offline
+  - serverless-plugin-warmup
+  - serverless-prune-plugin

@@ -1,0 +1,31 @@
+{
+  "name": "ata-chatbot",
+  "version": "1.0.1",
+  "main": "src/handlers/helloWorld.ts",
+  "license": "MIT",
+  "scripts": {
+    "serve": "sls offline --skipCacheInvalidation -P 4002",
+    "serve:watch": "nodemon -e js,ts,jsx,tsx -x npm run serve"
+  },
+  "devDependencies": {
+    "@babel/core": "7.6.0",
+    "@babel/preset-env": "7.6.0",
+    "@babel/preset-typescript": "^7.6.0",
+    "@types/aws-lambda": "^8.10.39",
+    "babel-loader": "^8.0.6",
+    "fork-ts-checker-webpack-plugin": "^6.2.5",
+    "prettier": "^2.0.0",
+    "webpack": "^4.39.3",
+    "webpack-node-externals": "^1.7.2",
+    "ts-loader": "^8.0.17",
+    "typescript": "^4.2.2",
+    "nodemon": "^2.0.7",
+    "serverless": "^1.51.0",
+    "serverless-offline": "^5.10.1",
+    "serverless-plugin-warmup": "^4.7.0-rc.1",
+    "serverless-prune-plugin": "^1.4.1",
+    "serverless-webpack": "^5.3.1"
+  },
+  "dependencies": {
+  }
+}
